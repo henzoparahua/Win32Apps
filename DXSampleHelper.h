@@ -1,6 +1,7 @@
 #pragma once
 #include <stdexcept>
 #include "stdafx.h"
+#include <source_location>
 
 using Microsoft::WRL::ComPtr;
 
@@ -9,6 +10,37 @@ inline std::string HrToString(HRESULT hr)
 	char s_str[64] = {};
 	sprintf_s(s_str, "HRESULT of 0x%08X", static_cast<UINT>(hr));
 	return std::string(s_str);
+}
+
+struct CheckerToken {};
+inline constexpr CheckerToken chk;
+
+struct HrGrabber
+{
+	HRESULT hr;
+	std::source_location loc;
+
+	HrGrabber(HRESULT hr, std::source_location loc = std::source_location::current()) noexcept
+		: hr(hr), loc(loc)
+	{ }
+};
+
+inline void operator>> (HrGrabber g, CheckerToken)
+{
+	if (FAILED(g.hr))
+	{
+		std::string errorMsg = HrToString(g.hr);
+
+		char buffer[512];
+
+		sprintf_s(buffer, "Graphics Error: %s\n   %s(%u)",
+			errorMsg.c_str(),
+			g.loc.file_name(),
+			g.loc.line());
+
+		throw std::runtime_error(buffer);
+
+	}
 }
 
 class HrException : public std::runtime_error
