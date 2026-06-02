@@ -9,7 +9,7 @@ class DXSample
 	std::wstring m_title;
 
 public:
-	DXSample(UINT width, UINT height, std::wstring name);
+	DXSample(uint32_t width, uint32_t height, std::wstring name);
 	virtual ~DXSample();
 
 	virtual void OnInit() = 0;
@@ -20,8 +20,8 @@ public:
 	virtual void OnKeyDown(UINT8) {}
 	virtual void OnKeyUp(UINT8) {}
 
-	UINT GetWidth() const { return m_width; }
-	UINT GetHeight() const { return m_height; }
+	uint32_t GetWidth() const { return m_width; }
+	uint32_t GetHeight() const { return m_height; }
 	const WCHAR* GetTitle() const { return m_title.c_str(); }
 
 	void ParseCommandLineArgs(_In_reads_(argc) WCHAR* argv[], int argc);
@@ -36,9 +36,12 @@ protected:
 
 	void SetCustomWindowText(LPCWSTR text);
 
-	UINT m_width;
-	UINT m_height;
+	uint32_t m_width;
+	uint32_t m_height;
 	float m_aspectRatio;
 
-	bool m_useWarpDevice;
+	bool m_useWarpDevice{ false };
+	bool fullscreen{ false };
+	bool vsync{ true };
+	bool tearing{ false };
 };

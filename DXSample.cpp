@@ -2,7 +2,7 @@
 
 using namespace Microsoft::WRL;
 
-DXSample::DXSample(UINT width, UINT height, std::wstring name) :
+DXSample::DXSample(uint32_t width, uint32_t height, std::wstring name) :
 	m_width(width),
 	m_height(height),
 	m_title(name),
@@ -37,7 +37,7 @@ void DXSample::GetHardwareAdapter(
 	if (SUCCEEDED(pFactory->QueryInterface(IID_PPV_ARGS(&factory))))
 	{
 		for (
-			UINT adapterIndex = 0;
+			uint32_t adapterIndex = 0;
 			SUCCEEDED(factory->EnumAdapterByGpuPreference(
 				adapterIndex,
 				requestHighPerformanceAdapter == true ? DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE : DXGI_GPU_PREFERENCE_UNSPECIFIED,
@@ -56,7 +56,7 @@ void DXSample::GetHardwareAdapter(
 
 	if (adapter.Get() == nullptr)
 	{
-		for (UINT adapterIndex{ 0 }; SUCCEEDED(pFactory->EnumAdapters1(adapterIndex, &adapter)); ++adapterIndex)
+		for (uint64_t adapterIndex{ 0 }; SUCCEEDED(pFactory->EnumAdapters1(adapterIndex, &adapter)); ++adapterIndex)
 		{
 			DXGI_ADAPTER_DESC1 desc;
 			adapter->GetDesc1(&desc);
@@ -92,6 +92,16 @@ void DXSample::ParseCommandLineArgs(WCHAR* argv[], int argc)
 		{
 			m_useWarpDevice = true;
 			m_title = m_title + L"(Warp)";
+		}
+
+		if (_wcsnicmp(argv[i], L"-w", wcslen(argv[i])) == 0)
+		{
+			m_width = ::wcstol(argv[++i], nullptr, 10);
+		}
+
+		if (_wcsnicmp(argv[i], L"-h", wcslen(argv[i])) == 0)
+		{
+			m_height = ::wcstol(argv[++i], nullptr, 10);
 		}
 	}
 }
