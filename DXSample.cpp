@@ -29,9 +29,7 @@ void DXSample::GetHardwareAdapter(
 	bool requestHighPerformanceAdapter)
 {
 	*ppAdapter = nullptr;
-
 	ComPtr<IDXGIAdapter1> adapter;
-
 	ComPtr<IDXGIFactory6> factory;
 
 	if (SUCCEEDED(pFactory->QueryInterface(IID_PPV_ARGS(&factory))))
