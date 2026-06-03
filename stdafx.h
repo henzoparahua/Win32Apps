@@ -12,6 +12,8 @@
 #include <wrl.h>
 #include <vector>
 #include <shellapi.h>
+#include <chrono>
+#include <cwchar>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")

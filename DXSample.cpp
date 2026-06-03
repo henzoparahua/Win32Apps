@@ -78,7 +78,7 @@ void DXSample::GetHardwareAdapter(
 
 void DXSample::SetCustomWindowText(LPCWSTR text)
 {
-	std::wstring windowText{ m_title + L": " + text };
+	std::wstring windowText{ m_title + L" - " + text };
 	SetWindowText(Win32App::GetHwnd(), windowText.c_str());
 }
 
