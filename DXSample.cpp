@@ -35,7 +35,7 @@ void DXSample::GetHardwareAdapter(
 	if (SUCCEEDED(pFactory->QueryInterface(IID_PPV_ARGS(&factory))))
 	{
 		for (
-			uint32_t adapterIndex = 0;
+			UINT32 adapterIndex = 0;
 			SUCCEEDED(factory->EnumAdapterByGpuPreference(
 				adapterIndex,
 				requestHighPerformanceAdapter == true ? DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE : DXGI_GPU_PREFERENCE_UNSPECIFIED,
@@ -54,7 +54,7 @@ void DXSample::GetHardwareAdapter(
 
 	if (adapter.Get() == nullptr)
 	{
-		for (uint64_t adapterIndex{ 0 }; SUCCEEDED(pFactory->EnumAdapters1(adapterIndex, &adapter)); ++adapterIndex)
+		for (UINT adapterIndex{ 0 }; SUCCEEDED(pFactory->EnumAdapters1(adapterIndex, &adapter)); ++adapterIndex)
 		{
 			DXGI_ADAPTER_DESC1 desc;
 			adapter->GetDesc1(&desc);
